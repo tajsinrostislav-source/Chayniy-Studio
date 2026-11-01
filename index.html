@@ -8,6 +8,9 @@
 </head>
 <body>
 
+    <!-- Красная луна (появится в хардкоре) -->
+    <div id="red-moon"></div>
+
     <button id="reset-btn" class="reset-btn" onclick="resetCup(event)">Вернуть чашку</button>
 
     <header class="site-header">
@@ -22,7 +25,8 @@
             <div class="drop-item" id="drop-flower">🌸</div>
             <div class="drop-item" id="drop-tea">☕</div>
             <div class="drop-item" id="drop-kefir">🥛</div>
-            <div class="drop-item" id="drop-god">👼🏻</div>
+            <div class="drop-item" id="drop-angel">👼🏻</div>
+            <div class="drop-item" id="drop-demon">👹</div>
         </div>
 
         <h1><a href="https://t.me/chayniy_studio" target="_blank" class="main-title">chayniy studio</a></h1>
@@ -31,25 +35,20 @@
     <p class="fade-in"><em>Нажми на карточку, чтобы узнать о человеке больше</em></p>
 
     <div class="team-container fade-in">
-        <div class="member-card alkash-card" onclick="openModal('alkash')">
+        <div class="member-card alkash-card" onclick="openModal('alkash'); countHardcoreClick('alkash')" id="member-alkash">
             <h3>Chayniy alkash</h3><p>Всё и сразу</p>
         </div>
-        <a href="javascript:void(0);" class="member-card kefir-card" onclick="kefirTaps++; if(kefirTaps>=5){openModal('kefir-secret'); kefirTaps=0; if(!state.kefirSecretFound) { state.kefirSecretFound = true; saveGame(); }} else {openModal('kefir');}">
+        <a href="javascript:void(0);" class="member-card kefir-card" onclick="kefirTaps++; if(kefirTaps>=5){openModal('kefir-secret'); kefirTaps=0; if(!state.kefirSecretFound) { state.kefirSecretFound = true; saveGame(); }} else {openModal('kefir');}; countHardcoreClick('kefir')" id="member-kefir">
             <h3>Kefir_Kefblch</h3><p>Клинер, тайпер</p>
         </a>
-        <div class="member-card wood-card" onclick="openModal('wood')">
+        <div class="member-card wood-card" onclick="openModal('wood'); countHardcoreClick('wood')" id="member-wood">
             <h3>Woodlander</h3><p>Редактор</p>
         </div>
-        <div class="member-card lutik-card" onclick="openModal('lutik')">
+        <div class="member-card lutik-card" onclick="openModal('lutik'); countHardcoreClick('lutik')" id="member-lutik">
             <h3>Лютик</h3><p>Переводчик</p>
         </div>
     </div>
 
-    <!-- БЛОК ТИТУЛОВ -->
-    <h2 class="section-title fade-in">Титулы</h2>
-    <div class="titles-container fade-in" id="titles-container"></div>
-
-    <!-- БЛОК ГАЧИ -->
     <h2 class="section-title fade-in">Галерея карточек</h2>
     <div class="gacha-container fade-in">
         <p>Испытай удачу и выбей легендарную карточку!</p>
@@ -57,15 +56,28 @@
         <div id="gacha-result" class="gacha-result-box"></div>
     </div>
 
-    <!-- БЛОК ИНВЕНТАРЯ -->
     <h2 class="section-title fade-in">Коллекция</h2>
     <div class="inventory-container fade-in" id="inventory-container"></div>
 
-    <!-- ОКНО ПРОСМОТРА КАРТОЧКИ И ТИТУЛА -->
+    <h2 class="section-title fade-in">Титулы</h2>
+    <div class="titles-container fade-in" id="titles-container"></div>
+
     <div id="card-view-modal" class="modal">
         <div class="modal-content border-alkash">
             <button class="close-btn" onclick="closeModal('card-view-modal')">✖</button>
             <div id="card-view-body"></div>
+        </div>
+    </div>
+
+    <div id="void-choice-modal" class="modal">
+        <div class="modal-content secret-style" style="max-width: 500px;">
+            <button class="close-btn" onclick="closeModal('void-choice-modal')">✖</button>
+            <h2 style="color: #ff4757; text-shadow: 0 0 10px red;">ВЫБОР СУДЬБЫ</h2>
+            <p style="margin: 15px 0; color: #ccc;">Ты нашел истинную сущность чашки. Что выберешь?</p>
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <button class="gacha-btn" style="background: #8b0000; color: white;" onclick="acceptDarkness()">Принять тьму (Сброс + Сложный режим)</button>
+                <button class="gacha-btn" style="background: #f39c12; color: black;" onclick="takePower()">Забрать силу (Все титулы)</button>
+            </div>
         </div>
     </div>
 
@@ -118,13 +130,29 @@
         </div>
     </div>
 
-    <!-- СЕКРЕТНАЯ ЗОНА ДЛЯ ЧЕРНОЙ ДЫРЫ (Кнопка сброса убрана) -->
+    <!-- СЕКРЕТНАЯ ЗОНА ДЛЯ ЧЕРНОЙ ДЫРЫ -->
     <div id="void-trigger" class="void-trigger" onclick="clickVoid()">
         <span class="void-text">Не нажимать.</span>
         <div id="black-hole" class="black-hole"></div>
     </div>
 
-    <script> var kefirTaps = 0; </script>
-    <script src="script.js"></script>
+    <!-- КОНТЕЙНЕР ДЛЯ КРАСИВЫХ УВЕДОМЛЕНИЙ -->
+    <div id="custom-toast" class="custom-toast">
+        <div class="toast-content" id="toast-text"></div>
+    </div>
+
+    <!-- Подключаем JS скрипт В САМОМ КОНЦЕ, чтобы HTML успел загрузиться -->
+    <script>
+    var kefirTaps = 0;
+    
+    // Ждем полной загрузки страницы и только потом запускаем скрипт
+    window.addEventListener('load', function() {
+        if (typeof renderInventory === 'function') {
+            renderInventory();
+            checkTitles();
+        }
+    });
+</script>
+<script src="script.js"></script>
 </body>
 </html>
