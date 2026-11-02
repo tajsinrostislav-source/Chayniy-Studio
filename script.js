@@ -322,7 +322,7 @@ function openShopUpgrades() {
     const incomeCost = 100 + (state.upgrades.incomeLevel * 500);
     html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Пассивный доход (Ур. ${state.upgrades.incomeLevel})</h3><p style="font-size: 12px; color: #aaa;">+${state.upgrades.incomeLevel * 50
                                                                                                                                                                                                                                       } листьев в минуту.</p><button id="buy-income" class="shop-btn" style="margin-top: 10px;">Улучшить за ${incomeCost} 🍃</button></div>`;
-    const luckCost = 1500 + (state.upgrades.luckLevel * 1000);
+    const luckCost = 150 + (state.upgrades.luckLevel * 1000);
     html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Удача (Ур. ${state.upgrades.luckLevel})</h3><p style="font-size: 12px; color: #aaa;">Повышает шанс выпадения 4-6 звезд.</p><button id="buy-luck" class="shop-btn" style="margin-top: 10px;">Улучшить за ${luckCost} 🍃</button></div>`;
     openModal(html);
 
