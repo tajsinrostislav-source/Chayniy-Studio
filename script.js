@@ -620,21 +620,39 @@ document.addEventListener("DOMContentLoaded", () => {
         openModal(`<h2 style="color: #f1c40f;">Лютик</h2><p><strong>Роль:</strong> Переводчик</p><p>Цветок семейства Лютиковые, предпочитает кофе.</p>`);
         if (!state.titles.includes("coffee_lover")) { state.titles.push("coffee_lover"); showAchievement("Кофеман"); saveGame(); }
     };
+// --- ИНТЕРАКТИВ ПИТОМЦА (САВАДЫ) ---
+const petImg = document.getElementById('pet-img');
+const defaultPetSrc = "https://avatars.mds.yandex.net/i?id=78bad48a50b8b4754a6fd76ef001b0e5b53d213e-4358711-images-thumbs&n=13"; // Основная
+const hitPetSrc = "https://avatars.mds.yandex.net/i?id=e99288446d05e957b82d061d057d69e36c18ac5f-4866644-images-thumbs&n=13"; // Удар
+const petSrc3 = "https://i.pinimg.com/736x/f1/c0/d7/f1c0d77ec604e8ccfb82e74e4995aad2.jpg"; // Поглаживание
 
-    // Интерактив питомца
-    const petImg = document.getElementById('pet-img');
-    const defaultPetSrc = "https://avatars.mds.yandex.net/i?id=78bad48a50b8b4754a6fd76ef001b0e5b53d213e-4358711-images-thumbs&n=13"; 
-    const hitPetSrc = "https://avatars.mds.yandex.net/i?id=e99288446d05e957b82d061d057d69e36c18ac5f-4866644-images-thumbs&n=13"; 
-    const petSrc3 = "https://i.pinimg.com/736x/f1/c0/d7/f1c0d77ec604e8ccfb82e74e4995aad2.jpg"; 
+let petTimeout = null;
 
-    if (petImg) {
-        petImg.addEventListener('mousedown', () => { petImg.src = hitPetSrc; });
-        petImg.addEventListener('mouseup', () => { petImg.src = defaultPetSrc; });
-        petImg.addEventListener('touchstart', (e) => { e.preventDefault(); petImg.src = hitPetSrc; });
-        petImg.addEventListener('touchend', () => { petImg.src = defaultPetSrc; });
-        petImg.addEventListener('mousemove', () => { petImg.src = petSrc3; });
-        petImg.addEventListener('mouseleave', () => { petImg.src = defaultPetSrc; });
-        petImg.addEventListener('touchmove', (e) => { e.preventDefault(); petImg.src = petSrc3; });
-        petImg.addEventListener('touchend', () => { petImg.src = defaultPetSrc; });
-    }
-});
+if (petImg) {
+    // Функция для смены картинки и увеличения
+    const showReaction = (src) => {
+        clearTimeout(petTimeout); // Сбрасываем старый таймер
+        petImg.src = src;
+        petImg.style.transform = "scale(1.5)"; // Увеличиваем Саваду в 1.5 раза
+        petImg.style.zIndex = "999"; // Поднимаем поверх всего
+        petImg.style.transition = "transform 0.3s ease, box-shadow 0.3s ease"; // Плавная анимация
+        petImg.style.boxShadow = "0 0 20px #f39c12"; // Добавляем свечение
+
+        // Возвращаем обратно через 2 секунды (2000 мс)
+        petTimeout = setTimeout(() => {
+            petImg.src = defaultPetSrc;
+            petImg.style.transform = "scale(1)";
+            petImg.style.zIndex = "10";
+            petImg.style.boxShadow = "none";
+        }, 2000);
+    };
+
+    // Удар (Клик / Тап)
+    petImg.addEventListener('mousedown', () => showReaction(hitPetSrc));
+    petImg.addEventListener('touchstart', (e) => { e.preventDefault(); showReaction(hitPetSrc); });
+
+    // Поглаживание (Свайп / Движение мыши)
+    petImg.addEventListener('mousemove', () => showReaction(petSrc3));
+    petImg.addEventListener('touchmove', (e) => { e.preventDefault(); showReaction(petSrc3); });
+                            }
+    
