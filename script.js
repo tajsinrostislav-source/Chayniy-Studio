@@ -133,7 +133,8 @@ function showAchievement(titleName) {
 
 // ==========================================
 // СЮДА ВСТАВЬ ЧАСТЬ 2
-// ==========================================// --- ЧАСТЬ 2: ЛОГИКА ИГРЫ И РЕНДЕР ---
+// ==========================================
+// --- ЧАСТЬ 2: ЛОГИКА ИГРЫ И РЕНДЕР ---
 
 function renderInventory() {
     const container = document.getElementById('inventory-container');
@@ -304,7 +305,7 @@ function toggleAutoSpin() {
         autoBtn.innerText = "Авто"; autoBtn.style.background = "#9b59b6"; spinBtn.disabled = false;
     } else {
         spinBtn.disabled = true; autoBtn.innerText = "Стоп"; autoBtn.style.background = "#e74c3c";
-        autoSpinInterval =         setInterval(() => {
+        autoSpinInterval = setInterval(() => {
             if (state.leaves < 10) { toggleAutoSpin(); openModal('<h2 style="color: #ff4757;">Листья кончились!</h2>'); return; }
             pullGachaSilent();
         }, 800);
