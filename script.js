@@ -1,407 +1,72 @@
-const gachaPool = [
-    { id: "thegod", stars: 0, name: "Thegodperson", emoji: "👼🏻", chance: 0.005, desc: "Абсолютное ничто." },
-    { id: "log", stars: 1, name: "Бревно", emoji: "🪵", chance: 8, desc: "Просто бревно." },
-    { id: "tea_usual", stars: 1, name: "Обычный чай", emoji: "☕", chance: 8, desc: "Классика." },
-    { id: "leaf", stars: 1, name: "Листок", emoji: "🍃", chance: 9, desc: "Упал с дерева." },
-    { id: "green_tea", stars: 2, name: "Зелёный чай", emoji: "🍵", chance: 6, desc: "Полезный." },
-    { id: "lemon", stars: 2, name: "Лимон", emoji: "🍋", chance: 6, desc: "Кислый." },
-    { id: "sugar", stars: 2, name: "Сахар", emoji: "🍬", chance: 6, desc: "Сладкий." },
-    { id: "cake", stars: 2, name: "Тортик", emoji: "🎂", chance: 5, desc: "Праздничный." },
-    { id: "source", stars: 2, name: "Первоисточник", emoji: "📒", chance: 4, desc: "Священная книга." },
-    { id: "sawada", stars: 3, name: "Савада", emoji: "👩🏻", chance: 4, desc: "Просто Савада." },
-    { id: "fruit_tea", stars: 3, name: "Фруктовый чай", emoji: "🍹", chance: 4, desc: "Ягодный." },
-    { id: "milk", stars: 3, name: "Молоко", emoji: "🥛", chance: 4, desc: "Белое." },
-    { id: "tea_sugar", stars: 3, name: "Чай с сахаром", emoji: "🍵", chance: 4, desc: "В кубиках." },
-    { id: "oreo", stars: 4, name: "Орео", emoji: "🍪", chance: 2, desc: "Печенька." },
-    { id: "yui", stars: 4, name: "Юи", emoji: "🎸", chance: 1.5, desc: "Гитара." },
-    { id: "mugi", stars: 4, name: "Муги-тян", emoji: "🧁", chance: 1.5, desc: "Кексик." },
-    { id: "azusa", stars: 4, name: "Азуса", emoji: "🎻", chance: 1.5, desc: "Барабаны (в душе)." },
-    { id: "ritsu", stars: 4, name: "Рицу", emoji: "🎧", chance: 1.5, desc: "Бас." },
-    { id: "mio", stars: 4, name: "Мио", emoji: "🖤", chance: 1.5, desc: "Клавиши." },
-    { id: "bird_hori", stars: 5, name: "Птица Хори", emoji: "🐦", chance: 1, desc: "Чирик." },
-    { id: "bird_izumi", stars: 5, name: "Птица Изуми", emoji: "🕊️", chance: 1, desc: "Чирик-чирик." },
-    { id: "kefir", stars: 5, name: "Kefir_Kefblch", emoji: "🥛", chance: 1, desc: "Мастер клининга и тайпсеттинга. И это при его 16 см (волос, разумеется)." },
-    { id: "alkash", stars: 5, name: "Chayniy alkash", emoji: "🍺", chance: 1, desc: "Друг Путина." },
-    { id: "wood", stars: 5, name: "Woodlander", emoji: "🪓", chance: 1, desc: "Художник." },
-    { id: "sawada_god", stars: 6, name: "Всевышняя Савада", emoji: "👑", chance: 0.3, desc: "Богиня." },
-    { id: "death_god", stars: 6, name: "Бог смерти", emoji: "☠️", chance: 0.2, desc: "Ужас." },
-    { id: "death_note", stars: 6, name: "Тетрадь смерти", emoji: "📓", chance: 0.2, desc: "Кира." },
-    { id: "nolan_mom", stars: 12, name: "Мама Нолана", emoji: "🤰🏻", chance: 0.00000001, desc: "Сын маминой подруги." }
-];
+body { background: radial-gradient(circle at top, #1a1a2e 0%, #0f0f16 100%); color: #f4e1c1; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 0; margin: 0; min-height: 100vh; overflow-x: hidden; transition: background 0.5s; }
 
-const titleList = [
-    { id: "birds", name: "Птички летят...", desc: "Получить 1 птицу Хори и 1 птицу Изуми" },
-    { id: "otaku", name: "Отаку", desc: "Выбить всех, кроме 12 и 0 звезд" },
-    { id: "combo", name: "Комбо!", desc: "Выбить Орео и Молоко" },
-    { id: "tea_lover", name: "Чайный любитель", desc: "Выбить все виды чая" },
-    { id: "cook", name: "Повар", desc: "Выбить всю еду" },
-    { id: "biologist", name: "Биолог", desc: "Выбить всех растений" },
-    { id: "k_on", name: "К-он", desc: "Выбить Азусу, Рицу, Мио, Юи и Муги" },
-    { id: "kefir_god", name: "Кефирный бог", desc: "Выбить Кефира 100 раз" },
-    { id: "supreme_god", name: "Всевышний бог", desc: "Выбить всех карт по 1 разу" },
-    { id: "know_it_all", name: "Тот, кто познал всё", desc: "Выбить всех карт по 5 раз" },
-    { id: "secret_god", name: "Секретный бог", desc: "Выбить Thegodperson" },
-    { id: "putin_friend", name: "Друг Путина", desc: "Выбить Алкаша 100 раз" },
-    { id: "blind_artist", name: "Слепой художник", desc: "Выбить Вуда 100 раз" },
-    { id: "cup_storm", name: "Гроза чашки", desc: "Разбить чашку 20 раз" },
-    { id: "studio", name: "Chayniy Studio", desc: "Собрать всех, кто выпадает с чашки" },
-    { id: "lover", name: "Я любовник!", desc: "Найти секрет Кефира" },
-    { id: "walked_by", name: "Просто прошел мимо", desc: "Сделать 1 крутку" },
-    { id: "spin_spin", name: "Крутим! Крутим!", desc: "Сделать 50 круток" },
-    { id: "ludoman", name: "Лудоман", desc: "Сделать 100 круток" },
-    { id: "tired_boss", name: "Я очень устал босс", desc: "Сделать 500 круток" },
-    { id: "i_know_all", name: "Я знаю всё", desc: "Сделать 1000 круток" },
-    { id: "mom_friend", name: "Сын маминой подруги", desc: "Выбить Маму Нолана" },
-    { id: "love_sawada", name: "Я люблю Саваду", desc: "Выбить Саваду 5 раз и Всевышнюю Саваду 1 раз" },
-    { id: "retired_14", name: "Вышел на пенсию в 14", desc: "Посмотреть описание Чайного алкаша" },
-    { id: "16cm", name: "16см?!", desc: "Посмотреть описание Кефира" },
-    { id: "god_slave", name: "Раб божий", desc: "Посмотреть описание Вуда" },
-    { id: "flower", name: "Цветочек", desc: "Посмотреть описание Лютика" },
-    { id: "kira", name: "Я — Кира", desc: "Выбить Тетрадь смерти и Бога смерти" },
-    { id: "bad_meme", name: "Плохой мем", desc: "Сделать 67 круток" },
-    { id: "moon_eater", name: "Пожиратель Лун", desc: "Призвать черную дыру во время Сложного режима" }
-];
+/* ТЕМЫ ОФОРМЛЕНИЯ (ФОНЫ) */
+body.theme-honey { background: radial-gradient(circle at top, #4a3b1a 0%, #2a1f0f 100%); }
+body.theme-halloween { background: radial-gradient(circle at top, #2a0a00 0%, #0f0000 100%); }
+body.theme-newyear { background: radial-gradient(circle at top, #003366 0%, #001133 100%); }
+body.theme-purple { background: radial-gradient(circle at top, #2e1a4a 0%, #0f0f16 100%); }
+body.theme-honey .main-title a { color: #ffcc00; }
+body.theme-halloween .main-title a { color: #ff5500; }
+body.theme-newyear .main-title a { color: #00ffff; }
+body.theme-purple .main-title a { color: #b388ff; }
 
-let state = {
-    inventory: {}, titles: [], totalSpins: 0, cupBreaks: 0,
-    kefirSecretFound: false, readAlkash: false, readKefir: false, readWood: false, readLutik: false,
-    hardcoreMode: false, hardcoreClicks: { alkash: 0, kefir: 0, wood: 0, lutik: 0 }
-};
+.top-bar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: flex-end; box-sizing: border-box; z-index: 100; }
+.currency-display { background: #2c3e50; padding: 5px 15px; border-radius: 20px; border: 2px solid #f39c12; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 5px; }
+.main-title { margin-top: 60px; font-size: 32px; text-transform: lowercase; }
+.main-title a { color: #f39c12; text-shadow: 0 2px 10px rgba(243, 156, 18, 0.4); text-decoration: none; }
+.section-title { margin-top: 40px; color: #f39c12; font-size: 24px; }
+.shop-buttons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+.shop-btn { background: #2c3e50; color: #fff; border: 2px solid #f39c12; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+.shop-btn:hover { background: #f39c12; color: #000; }
+.gacha-container { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; max-width: 500px; margin: 20px auto; }
+.gacha-btn { background: #f39c12; color: #111; font-weight: bold; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; transition: 0.3s; font-size: 18px; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); }
+.gacha-btn:hover { background: #ffb142; transform: translateY(-2px); }
+.gacha-result-box { margin-top: 15px; font-size: 24px; }
+.inventory-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 12px; max-width: 450px; margin: 20px auto; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+.inv-card { background: #1c1c24; aspect-ratio: 1 / 1; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #333; position: relative; cursor: pointer; transition: 0.3s; }
+.inv-card:hover { transform: scale(1.1); border-color: #f39c12; z-index: 10; }
+.inv-card .inv-emoji { font-size: 32px; }
+.inv-card .inv-count { font-size: 11px; color: #f39c12; font-weight: bold; position: absolute; bottom: 5px; right: 8px; }
+.titles-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 600px; margin: 20px auto; padding: 20px; }
+.title-badge { background: #2c3e50; color: #ecf0f1; padding: 8px 15px; border-radius: 20px; font-size: 14px; border: 2px solid #f39c12; cursor: pointer; transition: 0.3s; }
+.title-badge:hover { transform: scale(1.05); background: #f39c12; color: #000; }
+.title-locked { background: #111; color: #333; border-color: #222; }
 
-// Загрузка сохранений
-if (localStorage.getItem('chayniyStudioSave')) {
-    try { 
-        state = JSON.parse(localStorage.getItem('chayniyStudioSave')); 
-        if(!state.hardcoreClicks) state.hardcoreClicks = { alkash: 0, kefir: 0, wood: 0, lutik: 0 };
-    } catch(e) {}
-}
+/* ЧАШКА */
+.cup-container { position: relative; width: 80px; height: 80px; cursor: pointer; transition: transform 0.1s; display: flex; justify-content: center; align-items: center; margin: 100px auto 20px auto; }
+.cup-container:active:not(.smashed) { transform: scale(0.95); }
+.cup-body { position: absolute; bottom: 10px; left: 15px; width: 50px; height: 40px; background: linear-gradient(to right, #fff, #e0e0e0); border-radius: 5px 5px 20px 20px; border: 2px solid #aaa; z-index: 2; transition: opacity 0.2s; }
+.cup-handle { position: absolute; top: 10px; right: -15px; width: 20px; height: 20px; border: 3px solid #aaa; border-radius: 50%; border-left-color: transparent; z-index: 1; }
+.cup-saucer { position: absolute; bottom: 0; left: 10px; width: 60px; height: 10px; background: #ccc; border-radius: 50%; z-index: 0; transition: opacity 0.2s; }
+.steam { position: absolute; top: -5px; left: 30px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.4); border-radius: 50%; filter: blur(3px); animation: rise 2s infinite ease-in; transition: opacity 0.2s; }
+.steam2 { left: 38px; animation-delay: 0.5s; } .steam3 { left: 46px; animation-delay: 1s; }
+@keyframes rise { 0% { transform: translateY(0) scale(1); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-30px) scale(3); opacity: 0; } }
+.smashed { animation: shake 0.4s forwards; }
+@keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 20% { transform: translate(-3px, 0px) rotate(10deg); } 40% { transform: translate(3px, -1px) rotate(-10deg); } 60% { transform: translate(-3px, 1px) rotate(5deg); } 100% { transform: translate(1px, -1px) rotate(0deg); } }
+.cup-container.broken .cup-body, .cup-container.broken .cup-saucer, .cup-container.broken .steam { opacity: 0; pointer-events: none; animation: none; }
+.drop-item { display: block; position: absolute; top: 5px; left: 10px; font-size: 55px; opacity: 0; transform: scale(0); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; pointer-events: none; }
+.drop-item.active { opacity: 1; transform: scale(1); }
+.shards { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+.shard { position: absolute; background: #fff; border: 1px solid #aaa; opacity: 0; transition: all 0.5s ease-out; }
+.s1 { width: 15px; height: 15px; top: 40px; left: 30px; border-radius: 2px; } .s2 { width: 10px; height: 20px; top: 35px; left: 40px; border-radius: 2px; } .s3 { width: 12px; height: 12px; top: 45px; left: 35px; border-radius: 2px; } .s4 { width: 8px; height: 8px; top: 38px; left: 45px; border-radius: 50%; }
+.cup-container.broken .shard { opacity: 1; } .cup-container.broken .s1 { transform: translate(-30px, -20px) rotate(45deg); } .cup-container.broken .s2 { transform: translate(25px, -30px) rotate(-60deg); } .cup-container.broken .s3 { transform: translate(-20px, 25px) rotate(90deg); } .cup-container.broken .s4 { transform: translate(30px, 20px) rotate(120deg); }
 
-function saveGame() {
-    localStorage.setItem('chayniyStudioSave', JSON.stringify(state));
-    renderInventory();
-    checkTitles();
-    if (state.hardcoreMode) document.body.classList.add('hardcore-mode');
-    else document.body.classList.remove('hardcore-mode');
-}
+/* КАРТОЧКИ КОМАНДЫ */
+.team-container { display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 20px auto; }
+.member-card { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+.member-card:hover { transform: scale(1.02); background: rgba(255, 255, 255, 0.1); }
 
-// --- ФУНКЦИИ ОКОН ---
-function openModal(id) { 
-    const modal = document.getElementById(id);
-    if (!modal) return;
-    modal.style.display = "block"; 
-    if (id === 'alkash' && !state.readAlkash) { state.readAlkash = true; saveGame(); }
-    if (id === 'kefir' && !state.readKefir) { state.readKefir = true; saveGame(); }
-    if (id === 'wood' && !state.readWood) { state.readWood = true; saveGame(); }
-    if (id === 'lutik' && !state.readLutik) { state.readLutik = true; saveGame(); }
-}
+/* МОДАЛЬНЫЕ ОКНА */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
+.modal-content { background: #1c1c24; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; position: relative; border: 2px solid #f39c12; box-shadow: 0 0 20px rgba(243, 156, 18, 0.2); animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+.close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; cursor: pointer; transition: 0.3s; }
+.close-btn:hover { background: #ff4757; transform: rotate(90deg); }
 
-function closeModal(id) { 
-    const modal = document.getElementById(id);
-    if (modal) modal.style.display = "none"; 
-}
-
-function showTitleInfo(titleId) {
-    const t = titleList.find(item => item.id === titleId);
-    if (!t) return;
-    const body = document.getElementById('card-view-body');
-    body.innerHTML = `<h2 style="color: #f39c12;">Титул</h2><h3 style="margin-top: 10px;">${t.name}</h3><p style="margin-top: 20px; font-size: 16px;"><strong>Как получить:</strong></p><p style="color: #ccc;">${t.desc}</p>`;
-    openModal('card-view-modal');
-}
-
-function showToast(message) {
-    const toast = document.getElementById('custom-toast');
-    const text = document.getElementById('toast-text');
-    if (!toast || !text) return;
-    text.innerHTML = message;
-    toast.classList.add('show-toast');
-    setTimeout(() => { toast.classList.remove('show-toast'); }, 3500);
-}
-
-// --- ЧАШКА ---
-function breakCup() {
-    const cup = document.getElementById('cup');
-    const resetBtn = document.getElementById('reset-btn');
-    if (!cup || cup.classList.contains('broken')) return;
-    
-    cup.classList.add('smashed'); 
-    cup.style.cursor = "default";
-    document.querySelectorAll('.drop-item').forEach(el => el.classList.remove('active'));
-    
-    setTimeout(() => {
-        cup.classList.add('broken');
-        const chance = Math.floor(Math.random() * 100) + 1;
-        
-        if (chance <= 10) { 
-            const angel = document.getElementById('drop-angel');
-            const demon = document.getElementById('drop-demon');
-            angel.classList.add('active'); 
-            demon.classList.add('active');
-            angel.style.pointerEvents = "auto"; angel.style.cursor = "pointer";
-            demon.style.pointerEvents = "auto"; demon.style.cursor = "pointer";
-            const openChoice = (e) => { e.stopPropagation(); openModal('void-choice-modal'); };
-            angel.onclick = openChoice;
-            demon.onclick = openChoice;
-        } else {
-            const randomItem = Math.floor(Math.random() * 4);
-            if (randomItem === 0) document.getElementById('drop-log').classList.add('active');
-            if (randomItem === 1) document.getElementById('drop-flower').classList.add('active');
-            if (randomItem === 2) document.getElementById('drop-tea').classList.add('active');
-            if (randomItem === 3) document.getElementById('drop-kefir').classList.add('active');
-        }
-        if (resetBtn && !state.hardcoreMode) resetBtn.classList.add('show');
-        state.cupBreaks++;
-        saveGame();
-    }, 400);
-}
-
-function resetCup(event) {
-    if (state.hardcoreMode) return;
-    event.stopPropagation(); 
-    const cup = document.getElementById('cup');
-    const resetBtn = document.getElementById('reset-btn');
-    if (cup) { cup.classList.remove('broken'); cup.classList.remove('smashed'); cup.style.cursor = "pointer"; }
-    document.querySelectorAll('.drop-item').forEach(el => el.classList.remove('active'));
-    if (resetBtn) resetBtn.classList.remove('show');
-}
-
-function acceptDarkness() {
-    if(confirm("Ты уверен? ВЕСЬ прогресс будет удален, а игра станет сложнее.")) {
-        localStorage.removeItem('chayniyStudioSave');
-        localStorage.setItem('chayniyHardcore', 'true');
-        location.reload();
-    }
-}
-
-function takePower() {
-    state.titles = titleList.map(t => t.id); 
-    saveGame(); 
-    closeModal('void-choice-modal');
-    showToast("Все титулы получены!");
-}
-
-// --- ГАЧА ---
-function getRandomCard() {
-    const rand = Math.random() * 100;
-    let cumulativeChance = 0;
-    let pool = JSON.parse(JSON.stringify(gachaPool)); 
-    if (state.hardcoreMode) {
-        pool.forEach(c => {
-            if (c.stars >= 4) c.chance = c.chance / 10;
-            else c.chance = c.chance * 1.5;
-        });
-    }
-    for (let i = 0; i < pool.length; i++) {
-        cumulativeChance += pool[i].chance;
-        if (rand <= cumulativeChance) return pool[i];
-    }
-    return pool[1]; 
-}
-
-function pullGacha() {
-    const btn = document.getElementById('spin-btn');
-    if (!btn || btn.disabled) return;
-    const resultBox = document.getElementById('gacha-result');
-    if (!resultBox) return;
-    resultBox.innerHTML = ''; 
-
-    const card = getRandomCard();
-    const cardElement = document.createElement('div');
-    cardElement.className = `gacha-card rarity-${card.stars}`;
-    let starsStr = card.stars === 0 ? "0 ⭐ (АБСОЛЮТ)" : card.stars === 12 ? "12 ⭐ (БОЖЕСТВЕННО)" : '⭐'.repeat(card.stars);
-    
-    cardElement.innerHTML = `<div class="emoji-img">${card.emoji}</div><h4>${card.name}</h4><div class="stars">${starsStr}</div>`;
-    resultBox.appendChild(cardElement);
-
-    if (!state.inventory[card.id]) state.inventory[card.id] = 0;
-    state.inventory[card.id]++;
-    state.totalSpins++;
-    saveGame();
-
-    if (card.stars === 6 || card.stars === 12 || card.stars === 0) {
-        btn.disabled = true;
-        const originalText = btn.innerText;
-        btn.innerText = "КРУТИТСЯ...";
-        setTimeout(() => { btn.disabled = false; btn.innerText = originalText; }, 2500);
-        document.body.classList.add('shake-screen');
-        setTimeout(() => document.body.classList.remove('shake-screen'), 600);
-        let flash = document.getElementById('flash-overlay');
-        if (!flash) { flash = document.createElement('div'); flash.id = 'flash-overlay'; document.body.appendChild(flash); }
-        if (card.stars === 12) flash.style.background = 'radial-gradient(circle, #00ffff, #ff00ff, #000)';
-        else if (card.stars === 6) flash.style.background = 'radial-gradient(circle, #ffffff, #ff0000, #000)';
-        else flash.style.background = '#000000';
-        flash.classList.remove('flash-animation');
-        void flash.offsetWidth; 
-        flash.classList.add('flash-animation');
-        if (card.stars === 0) {
-            document.body.style.animation = "shakeScreen 0.2s infinite";
-            setTimeout(() => { document.body.style.animation = "none"; }, 1500);
-        }
-    }
-}
-
-// --- ИНВЕНТАРЬ ---
-function renderInventory() {
-    const invContainer = document.getElementById('inventory-container');
-    if (!invContainer) return;
-    invContainer.innerHTML = '';
-    gachaPool.forEach(card => {
-        const count = state.inventory[card.id] || 0;
-        const div = document.createElement('div');
-        if (count > 0) {
-            div.className = `inv-card rarity-${card.stars}`;
-            div.innerHTML = `<div class="inv-emoji">${card.emoji}</div><div class="inv-count">x${count}</div>`;
-            div.onclick = () => showCardInfo(card, count);
-        } else {
-            div.className = `inv-card locked`;
-            div.innerHTML = `?`;
-        }
-        invContainer.appendChild(div);
-    });
-}
-
-function showCardInfo(card, count) {
-    const body = document.getElementById('card-view-body');
-    if (!body) return;
-    body.innerHTML = `<h2>${card.name}</h2><div style="font-size: 60px; margin: 15px 0;">${card.emoji}</div><p><strong>Редкость:</strong> ${card.stars} ⭐</p><p><strong>Шанс:</strong> ${card.chance}%</p><p><strong>Выпало раз:</strong> ${count}</p><p style="margin-top: 15px; font-style: italic; color: #aaa;">"${card.desc}"</p>`;
-    openModal('card-view-modal');
-}
-
-// --- ТИТУЛЫ ---
-function checkTitles() {
-    let unlocked = [];
-    const inv = state.inventory;
-
-    if (inv["bird_hori"] > 0 && inv["bird_izumi"] > 0) unlocked.push("birds");
-    const allCommon = gachaPool.filter(c => c.stars > 0 && c.stars <= 5).every(c => inv[c.id] > 0);
-    if (allCommon) unlocked.push("otaku");
-    if (inv["oreo"] > 0 && inv["milk"] > 0) unlocked.push("combo");
-    if (inv["tea_usual"] > 0 && inv["green_tea"] > 0 && inv["fruit_tea"] > 0 && inv["tea_sugar"] > 0) unlocked.push("tea_lover");
-    if (inv["cake"] > 0 && inv["oreo"] > 0) unlocked.push("cook");
-    if (inv["leaf"] > 0 && inv["lemon"] > 0) unlocked.push("biologist");
-    if (inv["azusa"] > 0 && inv["ritsu"] > 0 && inv["mio"] > 0 && inv["yui"] > 0 && inv["mugi"] > 0) unlocked.push("k_on");
-    if (inv["kefir"] >= 100) unlocked.push("kefir_god");
-    if (gachaPool.every(c => inv[c.id] > 0)) unlocked.push("supreme_god");
-    if (gachaPool.every(c => inv[c.id] >= 5)) unlocked.push("know_it_all");
-    if (inv["thegod"] > 0) unlocked.push("secret_god");
-    if (inv["alkash"] >= 100) unlocked.push("putin_friend");
-    if (inv["wood"] >= 100) unlocked.push("blind_artist");
-    if (state.cupBreaks >= 20) unlocked.push("cup_storm");
-    if (inv["log"] > 0 && inv["tea_usual"] > 0 && inv["kefir"] > 0) unlocked.push("studio");
-    if (state.kefirSecretFound) unlocked.push("lover");
-    if (state.totalSpins >= 1) unlocked.push("walked_by");
-    if (state.totalSpins >= 50) unlocked.push("spin_spin");
-    if (state.totalSpins >= 100) unlocked.push("ludoman");
-    if (state.totalSpins >= 500) unlocked.push("tired_boss");
-    if (state.totalSpins >= 1000) unlocked.push("i_know_all");
-    if (inv["nolan_mom"] > 0) unlocked.push("mom_friend");
-    if (inv["sawada"] >= 5 && inv["sawada_god"] > 0) unlocked.push("love_sawada");
-    if (state.readAlkash) unlocked.push("retired_14");
-    if (state.readKefir) unlocked.push("16cm");
-    if (state.readWood) unlocked.push("god_slave");
-    if (state.readLutik) unlocked.push("flower");
-    if (inv["death_note"] > 0 && inv["death_god"] > 0) unlocked.push("kira");
-    if (state.totalSpins === 67) unlocked.push("bad_meme");
-
-    const savedMoonEater = state.titles.includes("moon_eater");
-    state.titles = unlocked;
-    if (savedMoonEater) state.titles.push("moon_eater");
-    
-    renderTitles();
-}
-
-function renderTitles() {
-    const container = document.getElementById('titles-container');
-    if (!container) return;
-    container.innerHTML = '';
-    titleList.forEach(t => {
-        const div = document.createElement('div');
-        if (state.titles.includes(t.id)) {
-            div.className = 'title-badge';
-            div.innerText = t.name;
-        } else {
-            div.className = 'title-badge title-locked';
-            div.innerText = '???';
-        }
-        div.onclick = () => showTitleInfo(t.id); 
-        container.appendChild(div);
-    });
-}
-
-function countHardcoreClick(memberId) {
-    if (!state.hardcoreMode) return;
-    if (!state.hardcoreClicks[memberId]) state.hardcoreClicks[memberId] = 0;
-    state.hardcoreClicks[memberId]++;
-    if (state.hardcoreClicks.alkash >= 3 && state.hardcoreClicks.kefir >= 3 && state.hardcoreClicks.wood >= 3 && state.hardcoreClicks.lutik >= 3) {
-        state.hardcoreMode = false;
-        state.hardcoreClicks = { alkash: 0, kefir: 0, wood: 0, lutik: 0 };
-        document.body.classList.remove('hardcore-mode');
-        saveGame();
-        showToast("ТЫ ВЫРВАЛСЯ ИЗ ТЬМЫ! Сложный режим отключен.");
-    } else {
-        saveGame();
-    }
-}
-
-// --- ЧЕРНАЯ ДЫРА ---
-let voidClicks = 0;
-function clickVoid() {
-    voidClicks++;
-    const hole = document.getElementById('black-hole');
-    if (!hole) return;
-    
-    hole.classList.add('growing');
-    const currentSize = 10 + (voidClicks * 10);
-    hole.style.width = currentSize + 'px';
-    hole.style.height = currentSize + 'px';
-
-    if (voidClicks >= 20) {
-        hole.classList.add('expand');
-        setTimeout(() => {
-            if (state.hardcoreMode) {
-                if (!state.titles.includes("moon_eater")) { state.titles.push("moon_eater"); }
-                localStorage.removeItem('chayniyStudioSave');
-                localStorage.removeItem('chayniyHardcore');
-                const body = document.getElementById('card-view-body');
-                body.innerHTML = `
-                    <h2 style="color: #ff4757; text-shadow: 0 0 10px red;">СЕКРЕТ РАСКРЫТ!</h2>
-                    <div style="font-size: 60px; margin: 15px 0;">🌑👑</div>
-                    <h3>Титул: Пожиратель Лун</h3>
-                    <p style="margin-top: 15px; color: #ccc;">Ты поглотил тьму вместе с луной. Твой прогресс сброшен, но ты получил новый титул!</p>
-                `;
-                openModal('card-view-modal');
-                voidClicks = 0;
-                hole.classList.remove('expand'); hole.classList.remove('growing');
-                hole.style.width = '0px'; hole.style.height = '0px';
-                setTimeout(() => { location.reload(); }, 3000);
-            } else {
-                showToast("Ты заглянул в бездну... но тьма не ответила. Попробуй в Сложном режиме.");
-                voidClicks = 0;
-                hole.classList.remove('expand'); hole.classList.remove('growing');
-                hole.style.width = '0px'; hole.style.height = '0px';
-            }
-        }, 2000);
-    }
-
-    clearTimeout(window.voidTimeout);
-    if (voidClicks < 20) {
-        window.voidTimeout = setTimeout(() => {
-            voidClicks = 0;
-            hole.classList.remove('growing');
-            hole.style.width = '0px'; hole.style.height = '0px';
-        }, 1000);
-    }
-}
-
-// --- ЗАПУСК ---
-if (localStorage.getItem('chayniyHardcore') === 'true') {
-    state.hardcoreMode = true;
-    localStorage.removeItem('chayniyHardcore');
-}
-
-if (state.hardcoreMode) document.body.classList.add('hardcore-mode');
-
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-        event.target.style.display = "none";
-    }
-            }
+/* АЧИВКИ */
+#achievement-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 2000; }
+.achievement-toast { background: rgba(20, 20, 24, 0.95); border: 2px solid #f39c12; border-left: 5px solid #f39c12; color: #fff; padding: 15px 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(243, 156, 18, 0.5); animation: slideInRight 0.5s ease forwards; display: flex; align-items: center; gap: 15px; }
+.achievement-toast .ach-title { color: #f39c12; font-weight: bold; font-size: 16px; margin: 0; }
+.achievement-toast .ach-desc { font-size: 12px; color: #ccc; margin: 5px 0 0 0; }
+@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
