@@ -8,16 +8,12 @@
 </head>
 <body class="theme-default">
 
-    <!-- Фоновая музыка (Pixabay) -->
-    <audio id="bg-music" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2a2177ea33.mp3?filename=tender-love-114424.mp3" type="audio/mpeg">
-    </audio>
-  
-<!-- Звуки интерфейса -->
-<audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-<audio id="sound-rare" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio>
-<audio id="sound-title" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
-<audio id="sound-cup" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+    <!-- Музыка и звуки -->
+    <audio id="bg-music" loop><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2a2177ea33.mp3?filename=tender-love-114424.mp3" type="audio/mpeg"></audio>
+    <audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+    <audio id="sound-rare" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio>
+    <audio id="sound-title" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
+    <audio id="sound-cup" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
 
     <header class="top-bar">
         <div class="currency-display">
@@ -38,13 +34,17 @@
         <div class="drop-item" id="drop-flower">🌸</div>
         <div class="drop-item" id="drop-tea">☕</div>
         <div class="drop-item" id="drop-kefir">🥛</div>
-        <div class="drop-item" id="drop-angel">👼🏻</div>
-        <div class="drop-item" id="drop-demon">👹</div>
+    </div>
+
+    <!-- Питомец (Азуса) -->
+    <div id="pet-container" style="display: none; position: absolute; left: 50%; transform: translateX(50px); top: 150px; z-index: 10;">
+        <img id="pet-img" src="https://avatars.mds.yandex.net/i?id=78bad48a50b8b4754a6fd76ef001b0e5b53d213e-4358711-images-thumbs&n=13" 
+             alt="Питомец" 
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 50%; cursor: pointer; animation: petFloat 2s infinite ease-in-out; mix-blend-mode: multiply;">
     </div>
 
     <h1 class="main-title"><a href="https://t.me/chayniy_studio" target="_blank">chayniy studio</a></h1>
 
-    <!-- Карточки команды -->
     <div class="team-container">
         <div class="member-card" id="member-alkash" style="border: 2px solid #ffb347;">
             <h3 style="margin: 0 0 5px 0; color: #fff;">Chayniy alkash</h3>
@@ -67,6 +67,17 @@
     <div class="shop-buttons">
         <button id="btn-shop-upgrades" class="shop-btn">🛠 Улучшения</button>
         <button id="btn-shop-cosmetics" class="shop-btn">🎨 Косметика</button>
+        <button id="btn-shop-cards" class="shop-btn" style="background: #8e44ad; border-color: #9b59b6;">🃏 Карты</button>
+    </div>
+
+    <h2 class="section-title">Стенды для карт</h2>
+    <div class="stands-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; justify-content: center; margin: 20px auto; max-width: 300px;">
+        <div class="stand-slot" id="stand-0" onclick="openStandSelection(0)">+</div>
+        <div class="stand-slot" id="stand-1" onclick="openStandSelection(1)">+</div>
+        <div class="stand-slot" id="stand-2" onclick="openStandSelection(2)">+</div>
+        <div class="stand-slot" id="stand-3" onclick="openStandSelection(3)">+</div>
+        <div class="stand-slot" id="stand-4" onclick="openStandSelection(4)">+</div>
+        <div class="stand-slot" id="stand-5" onclick="openStandSelection(5)">+</div>
     </div>
 
     <div class="gacha-container">
@@ -80,6 +91,16 @@
 
     <h2 class="section-title">Титулы</h2>
     <div id="titles-container" class="titles-container"></div>
+
+    <!-- Админ-панель -->
+    <div id="admin-panel" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111; border: 3px solid #ff0000; padding: 20px; border-radius: 15px; z-index: 9999; width: 300px; text-align: center; box-shadow: 0 0 30px red;">
+        <h2 style="color: #ff4757; margin-top: 0;">АДМИН-ПАНЕЛЬ</h2>
+        <p style="color: #ccc; font-size: 12px;">Секретный доступ подтвержден.</p>
+        <button onclick="adminGiveLeaves()" style="width: 100%; background: #2c3e50; color: #fff; border: 1px solid #f39c12; padding: 10px; margin-bottom: 10px; border-radius: 5px; cursor: pointer;">💰 +100 000 листьев</button>
+        <button onclick="adminGiveAllCards()" style="width: 100%; background: #2c3e50; color: #fff; border: 1px solid #f39c12; padding: 10px; margin-bottom: 10px; border-radius: 5px; cursor: pointer;">🃏 Выдать все карты</button>
+        <button onclick="adminGiveAllTitles()" style="width: 100%; background: #2c3e50; color: #fff; border: 1px solid #f39c12; padding: 10px; margin-bottom: 10px; border-radius: 5px; cursor: pointer;">🏆 Выдать все титулы</button>
+        <button onclick="document.getElementById('admin-panel').style.display='none'" style="width: 100%; background: #ff4757; color: #fff; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">Закрыть</button>
+    </div>
 
     <div id="modal-overlay" class="modal">
         <div class="modal-content">
