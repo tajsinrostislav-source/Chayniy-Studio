@@ -1,21 +1,38 @@
 body { background: radial-gradient(circle at top, #1a1a2e 0%, #0f0f16 100%); color: #f4e1c1; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 0; margin: 0; min-height: 100vh; overflow-x: hidden; transition: background 0.5s; }
 
-/* ТЕМЫ ОФОРМЛЕНИЯ (ФОНЫ) */
+/* ТЕМЫ ОФОРМЛЕНИЯ */
 body.theme-honey { background: radial-gradient(circle at top, #4a3b1a 0%, #2a1f0f 100%); }
 body.theme-halloween { background: radial-gradient(circle at top, #2a0a00 0%, #0f0000 100%); }
 body.theme-newyear { background: radial-gradient(circle at top, #003366 0%, #001133 100%); }
 body.theme-purple { background: radial-gradient(circle at top, #2e1a4a 0%, #0f0f16 100%); }
+body.theme-heaven { background: radial-gradient(circle at top, #ffd700 0%, #ffffff 100%); color: #333; }
+body.theme-hell { background: radial-gradient(circle at top, #8b0000 0%, #1a0000 100%); }
+body.theme-hollow { background: radial-gradient(circle at top, #0b1a2a 0%, #000000 100%); }
+body.theme-hollow .main-title a { color: #66ccff; text-shadow: 0 0 15px #66ccff; }
+
 body.theme-honey .main-title a { color: #ffcc00; }
 body.theme-halloween .main-title a { color: #ff5500; }
 body.theme-newyear .main-title a { color: #00ffff; }
 body.theme-purple .main-title a { color: #b388ff; }
+body.theme-heaven .main-title a { color: #ffaa00; text-shadow: 0 0 10px #fff; }
+body.theme-hell .main-title a { color: #ff3333; text-shadow: 0 0 10px #ff0000; }
+
+/* Новогодняя тема (снежинки) */
+body.theme-newyear::before {
+    content: "❄ ❅ ❆";
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    font-size: 30px; color: rgba(255, 255, 255, 0.3);
+    pointer-events: none; z-index: -1;
+    animation: snow 10s linear infinite;
+}
+@keyframes snow { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
 
 .top-bar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: flex-end; box-sizing: border-box; z-index: 100; }
-.currency-display { background: #2c3e50; padding: 5px 15px; border-radius: 20px; border: 2px solid #f39c12; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 5px; }
+.currency-display { background: #2c3e50; padding: 5px 15px; border-radius: 20px; border: 2px solid #f39c12; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 5px; color: #fff; }
 .main-title { margin-top: 60px; font-size: 32px; text-transform: lowercase; }
-.main-title a { color: #f39c12; text-shadow: 0 2px 10px rgba(243, 156, 18, 0.4); text-decoration: none; }
+.main-title a { color: #f39c12; text-shadow: 0 2px 10px rgba(243, 156, 18, 0.4); text-decoration: none; transition: 0.3s; }
 .section-title { margin-top: 40px; color: #f39c12; font-size: 24px; }
-.shop-buttons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+.shop-buttons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
 .shop-btn { background: #2c3e50; color: #fff; border: 2px solid #f39c12; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
 .shop-btn:hover { background: #f39c12; color: #000; }
 .gacha-container { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; max-width: 500px; margin: 20px auto; }
@@ -56,6 +73,24 @@ body.theme-purple .main-title a { color: #b388ff; }
 .member-card { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
 .member-card:hover { transform: scale(1.02); background: rgba(255, 255, 255, 0.1); }
 
+/* СТЕНДЫ */
+.stand-slot {
+    width: 80px;
+    height: 80px;
+    background: #1c1c24;
+    border: 2px dashed #555;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.stand-slot:hover { border-color: #f39c12; background: #2c3e50; }
+.stand-slot.locked { background: #111; border-color: #222; color: #333; cursor: not-allowed; }
+.stand-slot.locked::after { content: "🔒"; font-size: 20px; }
+
 /* МОДАЛЬНЫЕ ОКНА */
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
 .modal-content { background: #1c1c24; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; position: relative; border: 2px solid #f39c12; box-shadow: 0 0 20px rgba(243, 156, 18, 0.2); animation: slideDown 0.3s ease; }
@@ -70,3 +105,10 @@ body.theme-purple .main-title a { color: #b388ff; }
 .achievement-toast .ach-desc { font-size: 12px; color: #ccc; margin: 5px 0 0 0; }
 @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+
+/* АНИМАЦИЯ ПИТОМЦА */
+@keyframes petFloat {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+              }
