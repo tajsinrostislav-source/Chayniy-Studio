@@ -654,5 +654,5 @@ if (petImg) {
     // Поглаживание (Свайп / Движение мыши)
     petImg.addEventListener('mousemove', () => showReaction(petSrc3));
     petImg.addEventListener('touchmove', (e) => { e.preventDefault(); showReaction(petSrc3); });
-                            }
-    
+ }
+});
