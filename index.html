@@ -6,153 +6,90 @@
     <title>Chayniy Studio</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="theme-default">
 
-    <!-- Красная луна (появится в хардкоре) -->
-    <div id="red-moon"></div>
+    <!-- Фоновая музыка (Pixabay) -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2a2177ea33.mp3?filename=tender-love-114424.mp3" type="audio/mpeg">
+    </audio>
+  
+<!-- Звуки интерфейса -->
+<audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+<audio id="sound-rare" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio>
+<audio id="sound-title" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
+<audio id="sound-cup" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
 
-    <button id="reset-btn" class="reset-btn" onclick="resetCup(event)">Вернуть чашку</button>
-
-    <header class="site-header">
-        <div class="cup-container" id="cup" onclick="breakCup()">
-            <div class="steam steam1"></div><div class="steam steam2"></div><div class="steam steam3"></div>
-            <div class="cup-body"><div class="cup-handle"></div></div>
-            <div class="cup-saucer"></div>
-            <div class="shards">
-                <div class="shard s1"></div><div class="shard s2"></div><div class="shard s3"></div><div class="shard s4"></div>
-            </div>
-            <div class="drop-item" id="drop-log">🪵</div>
-            <div class="drop-item" id="drop-flower">🌸</div>
-            <div class="drop-item" id="drop-tea">☕</div>
-            <div class="drop-item" id="drop-kefir">🥛</div>
-            <div class="drop-item" id="drop-angel">👼🏻</div>
-            <div class="drop-item" id="drop-demon">👹</div>
+    <header class="top-bar">
+        <div class="currency-display">
+            <span class="icon">🍃</span>
+            <span id="leaves-count">0</span>
         </div>
-
-        <h1><a href="https://t.me/chayniy_studio" target="_blank" class="main-title">chayniy studio</a></h1>
     </header>
 
-    <p class="fade-in"><em>Нажми на карточку, чтобы узнать о человеке больше</em></p>
+    <div class="cup-container" id="cup">
+        <div class="steam steam1"></div><div class="steam steam2"></div><div class="steam steam3"></div>
+        <div class="cup-body"><div class="cup-handle"></div></div>
+        <div class="cup-saucer"></div>
+        <div class="shards">
+            <div class="shard s1"></div><div class="shard s2"></div>
+            <div class="shard s3"></div><div class="shard s4"></div>
+        </div>
+        <div class="drop-item" id="drop-log">🪵</div>
+        <div class="drop-item" id="drop-flower">🌸</div>
+        <div class="drop-item" id="drop-tea">☕</div>
+        <div class="drop-item" id="drop-kefir">🥛</div>
+        <div class="drop-item" id="drop-angel">👼🏻</div>
+        <div class="drop-item" id="drop-demon">👹</div>
+    </div>
 
-    <div class="team-container fade-in">
-        <div class="member-card alkash-card" onclick="openModal('alkash'); countHardcoreClick('alkash')" id="member-alkash">
-            <h3>Chayniy alkash</h3><p>Всё и сразу</p>
+    <h1 class="main-title"><a href="https://t.me/chayniy_studio" target="_blank">chayniy studio</a></h1>
+
+    <!-- Карточки команды -->
+    <div class="team-container">
+        <div class="member-card" id="member-alkash" style="border: 2px solid #ffb347;">
+            <h3 style="margin: 0 0 5px 0; color: #fff;">Chayniy alkash</h3>
+            <p style="margin: 0; font-size: 14px; color: #ccc;">Всё и сразу</p>
         </div>
-        <a href="javascript:void(0);" class="member-card kefir-card" onclick="kefirTaps++; if(kefirTaps>=5){openModal('kefir-secret'); kefirTaps=0; if(!state.kefirSecretFound) { state.kefirSecretFound = true; saveGame(); }} else {openModal('kefir');}; countHardcoreClick('kefir')" id="member-kefir">
-            <h3>Kefir_Kefblch</h3><p>Клинер, тайпер</p>
-        </a>
-        <div class="member-card wood-card" onclick="openModal('wood'); countHardcoreClick('wood')" id="member-wood">
-            <h3>Woodlander</h3><p>Редактор</p>
+        <div class="member-card" id="member-kefir" style="border: 2px solid #9b59b6;">
+            <h3 style="margin: 0 0 5px 0; color: #fff;">Kefir_Kefblch</h3>
+            <p style="margin: 0; font-size: 14px; color: #ccc;">Клинер, тайпер</p>
         </div>
-        <div class="member-card lutik-card" onclick="openModal('lutik'); countHardcoreClick('lutik')" id="member-lutik">
-            <h3>Лютик</h3><p>Переводчик</p>
+        <div class="member-card" id="member-wood" style="border: 2px solid #5d6d7e;">
+            <h3 style="margin: 0 0 5px 0; color: #fff;">Woodlander</h3>
+            <p style="margin: 0; font-size: 14px; color: #ccc;">Редактор</p>
+        </div>
+        <div class="member-card" id="member-lutik" style="border: 2px solid #f1c40f;">
+            <h3 style="margin: 0 0 5px 0; color: #fff;">Лютик</h3>
+            <p style="margin: 0; font-size: 14px; color: #ccc;">Переводчик</p>
         </div>
     </div>
 
-    <h2 class="section-title fade-in">Галерея карточек</h2>
-    <div class="gacha-container fade-in">
-        <p>Испытай удачу и выбей легендарную карточку!</p>
-        <button class="gacha-btn" id="spin-btn" onclick="pullGacha()">Крутить</button>
+    <div class="shop-buttons">
+        <button id="btn-shop-upgrades" class="shop-btn">🛠 Улучшения</button>
+        <button id="btn-shop-cosmetics" class="shop-btn">🎨 Косметика</button>
+    </div>
+
+    <div class="gacha-container">
+        <button id="btn-spin" class="gacha-btn">Крутить (10 🍃)</button>
+        <button id="btn-auto-spin" class="gacha-btn" style="display: none; background: #9b59b6; margin-left: 10px;">Авто</button>
         <div id="gacha-result" class="gacha-result-box"></div>
     </div>
 
-    <h2 class="section-title fade-in">Коллекция</h2>
-    <div class="inventory-container fade-in" id="inventory-container"></div>
+    <h2 class="section-title">Коллекция</h2>
+    <div id="inventory-container" class="inventory-container"></div>
 
-    <h2 class="section-title fade-in">Титулы</h2>
-    <div class="titles-container fade-in" id="titles-container"></div>
+    <h2 class="section-title">Титулы</h2>
+    <div id="titles-container" class="titles-container"></div>
 
-    <div id="card-view-modal" class="modal">
-        <div class="modal-content border-alkash">
-            <button class="close-btn" onclick="closeModal('card-view-modal')">✖</button>
-            <div id="card-view-body"></div>
+    <div id="modal-overlay" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="modal-close">✖</button>
+            <div id="modal-inner-content"></div>
         </div>
     </div>
 
-    <div id="void-choice-modal" class="modal">
-        <div class="modal-content secret-style" style="max-width: 500px;">
-            <button class="close-btn" onclick="closeModal('void-choice-modal')">✖</button>
-            <h2 style="color: #ff4757; text-shadow: 0 0 10px red;">ВЫБОР СУДЬБЫ</h2>
-            <p style="margin: 15px 0; color: #ccc;">Ты нашел истинную сущность чашки. Что выберешь?</p>
-            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                <button class="gacha-btn" style="background: #8b0000; color: white;" onclick="acceptDarkness()">Принять тьму (Сброс + Сложный режим)</button>
-                <button class="gacha-btn" style="background: #f39c12; color: black;" onclick="takePower()">Забрать силу (Все титулы)</button>
-            </div>
-        </div>
-    </div>
+    <div id="achievement-container"></div>
 
-    <!-- Модальные окна (Старые) -->
-    <div id="alkash" class="modal">
-        <div class="modal-content border-alkash">
-            <button class="close-btn" onclick="closeModal('alkash')">✖</button>
-            <h2>Chayniy alkash</h2>
-            <div class="info-box">
-                <p><strong>Роль:</strong> Переводчик, Админ</p>
-                <p>Человек, любимый чай персиковый. Выше Путина в 1,168 раз и младше его в 5,29 раз.</p>
-            </div>
-        </div>
-    </div>
-    <div id="kefir" class="modal">
-        <div class="modal-content border-kefir">
-            <button class="close-btn" onclick="closeModal('kefir')">✖</button>
-            <h2>Kefir_Kefblch</h2>
-            <div class="info-box">
-                <p><strong>Роль:</strong> Клинер, тайпер</p>
-                <p>Мастер клининга и тайпсеттинга, и это при его 16 см (волос, разумеется).</p>
-            </div>
-        </div>
-    </div>
-    <div id="wood" class="modal">
-        <div class="modal-content border-wood">
-            <button class="close-btn" onclick="closeModal('wood')">✖</button>
-            <h2>Woodlander</h2>
-            <div class="info-box">
-                <p><strong>Роль:</strong> Редактор, дорисовщик</p>
-                <p>В бывшем австрийский, теперь русский художник. Следит за тем, чтобы картинка была сасной.</p>
-            </div>
-        </div>
-    </div>
-    <div id="lutik" class="modal">
-        <div class="modal-content border-lutik">
-            <button class="close-btn" onclick="closeModal('lutik')">✖</button>
-            <h2>Лютик</h2>
-            <div class="info-box">
-                <p><strong>Роль:</strong> Переводчик</p>
-                <p>Мастер художественного слова.</p>
-            </div>
-        </div>
-    </div>
-    <div id="kefir-secret" class="modal">
-        <div class="modal-content secret-style">
-            <button class="close-btn" onclick="closeModal('kefir-secret')">✖</button>
-            <h2>СЕКРЕТ РАСКРЫТ!</h2>
-            <p style="font-size: 22px; font-weight: bold; color: #ff4757; margin-top: 20px;">"Я её любовник, завидуйте, черти"</p>
-        </div>
-    </div>
-
-    <!-- СЕКРЕТНАЯ ЗОНА ДЛЯ ЧЕРНОЙ ДЫРЫ -->
-    <div id="void-trigger" class="void-trigger" onclick="clickVoid()">
-        <span class="void-text">Не нажимать.</span>
-        <div id="black-hole" class="black-hole"></div>
-    </div>
-
-    <!-- КОНТЕЙНЕР ДЛЯ КРАСИВЫХ УВЕДОМЛЕНИЙ -->
-    <div id="custom-toast" class="custom-toast">
-        <div class="toast-content" id="toast-text"></div>
-    </div>
-
-    <!-- Подключаем JS скрипт В САМОМ КОНЦЕ, чтобы HTML успел загрузиться -->
-    <script>
-    var kefirTaps = 0;
-    
-    // Ждем полной загрузки страницы и только потом запускаем скрипт
-    window.addEventListener('load', function() {
-        if (typeof renderInventory === 'function') {
-            renderInventory();
-            checkTitles();
-        }
-    });
-</script>
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
