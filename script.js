@@ -1,4 +1,4 @@
-// --- ЧАСТЬ 1: ДАННЫЕ И ИНТЕРФЕЙС ---
+// --- ЧАСТЬ 1: ДАННЫЕ И БАЗОВЫЕ ФУНКЦИИ ---
 
 const gachaPool = [
     { id: "thegod", stars: 0, name: "Thegodperson", emoji: "👼🏻", chance: 0.005, desc: "Абсолютное ничто. Ты видел то, что не должен был." },
@@ -55,7 +55,14 @@ const gachaPool = [
 ];
 
 const titleList = [
-    { id: "forbidden", name: "Запретный фрейм", desc: "Получить Потрепанную мангу и Вырванный листок. Читать мангу под одеялом — это спорт." },
+    { id: "walked_by", name: "Просто прошел мимо", desc: "Сделать 1 крутку. Начало положено." },
+    { id: "spin_spin", name: "Крутим! Крутим!", desc: "Сделать 50 круток. Палец уже набил мозоль." },
+    { id: "ludoman", name: "Лудоман", desc: "Сделать 100 круток. Ты уже видишь карты во сне." },
+    { id: "tired_boss", name: "Я очень устал босс", desc: "Сделать 500 круток. Тебе срочно нужен отпуск." },
+    { id: "i_know_all", name: "Я знаю всё", desc: "Сделать 1000 круток. Ты видел все комбинации, которые возможны." },
+    { id: "collector", name: "Коллекционер", desc: "Открыть 15 разных карт. Ты собираешь их как покемонов." },
+    { id: "anime_fan", name: "Анимешник", desc: "Выбить всех участников K-On!. Теперь ты официально отаку." },
+    { id: "zoologist", name: "Зоолог", desc: "Выбить обеих птиц и паука. Твой личный зоопарк." },
     { id: "tea_master", name: "Чайный мастер", desc: "Выбить все виды чая. Теперь ты знаешь, что пуэр — это не сорт чая, а образ жизни." },
     { id: "shaurma_lord", name: "Шаурмечный лорд", desc: "Выбить 5 Шаурмы. Твой желудок уже подписал контракт с шаурмичной." },
     { id: "sommelier", name: "Сомелье", desc: "Выбить Да Хун Пао. Разбираешься в чае лучше, чем в людях." },
@@ -63,42 +70,33 @@ const titleList = [
     { id: "tea_samurai", name: "Чайный самурай", desc: "Выбить ложку и вилку. Твой путь — размешивание сахара с честью." },
     { id: "matcha_man", name: "Матча-мэн", desc: "Выбить 3 Матчи. Зеленый, как твои мысли после 10 круток." },
     { id: "dragon_warrior", name: "Воин дракона", desc: "Выбить Чайного дракона и Чайного воина. Охраняешь чай как зеницу ока." },
-    { id: "walked_by", name: "Просто прошел мимо", desc: "Сделать 1 крутку. Начало положено." },
-    { id: "spin_spin", name: "Крутим! Крутим!", desc: "Сделать 50 круток. Палец уже набил мозоль." },
-    { id: "ludoman", name: "Лудоман", desc: "Сделать 100 круток. Ты уже видишь карты во сне." },
-    { id: "tired_boss", name: "Я очень устал босс", desc: "Сделать 500 круток. Тебе срочно нужен отпуск." },
-    { id: "i_know_all", name: "Я знаю всё", desc: "Сделать 1000 круток. Ты видел все комбинации, которые возможны." },
-    { id: "secret_god", name: "Секретный бог", desc: "Выбить Thegodperson. Ты видел то, что не должен был." },
+    { id: "kira", name: "Я — Кира", desc: "Выбить Тетрадь смерти и Чайного Бога. Твое имя теперь в тетради." },
     { id: "mecenat", name: "Меценат", desc: "Потратить 10 000 листьев. Ты спонсируешь нашу чайную империю." },
     { id: "stilyaga", name: "Стиляга", desc: "Купить все темы оформления. Твой сайт выглядит лучше, чем у нас." },
     { id: "coffee_lover", name: "Кофеман", desc: "Прочитать описание Лютика. Предатель чайной студии." },
     { id: "tea_traitor", name: "Чайный предатель", desc: "Выбить 10 Лютиков. Ты слишком много пьешь кофе." },
-    { id: "lover", name: "Я её любовник!", desc: "Найти секрет Кефира. Завидуйте, черти." },
-    { id: "16cm", name: "16см?!", desc: "Открыть описание Кефира. Мы про волосы, если что." },
     { id: "god_slave", name: "Раб божий", desc: "Открыть описание Вуда. Он рисует, а ты страдаешь." },
     { id: "retired_14", name: "Вышел на пенсию в 14", desc: "Открыть описание Чайного алкаша. Он уже все понял про эту жизнь." },
-    { id: "cup_storm", name: "Гроза чашки", desc: "Разбить чашку 20 раз. Ты опасен для посуды." },
-    { id: "moon_eater", name: "Пожиратель Лун", desc: "Призвать черную дыру в Хардкоре. Ты сошел с ума, но получил ачивку." },
-    { id: "kira", name: "Я — Кира", desc: "Выбить Тетрадь смерти и Чайного Бога. Твое имя теперь в тетради." },
-    { id: "bad_meme", name: "Плохой мем", desc: "Сделать 67 круток. Смешно только в первый раз." },
-    { id: "collector", name: "Коллекционер", desc: "Открыть 15 разных карт. Ты собираешь их как покемонов." },
-    { id: "anime_fan", name: "Анимешник", desc: "Выбить всех участников K-On!. Теперь ты официально отаку." },
-    { id: "zoologist", name: "Зоолог", desc: "Выбить обеих птиц и паука. Твой личный зоопарк." }
+    { id: "cup_storm", name: "Гроза чашки", desc: "Разбить чашку 20 раз. Ты опасен для посуды." }
 ];
 
 let state = {
     leaves: 0, inventory: {}, titles: [], totalSpins: 0, cupBreaks: 0,
-    upgrades: { autoSpin: false, incomeLevel: 0, luckLevel: 0 },
-    themes: { default: true, honey: false, halloween: false, newyear: false, purple: false },
-    currentTheme: "default", musicOn: false
+    upgrades: { autoSpin: false, autoCup: false, incomeLevel: 0, luckLevel: 0, unlockedStands: 3, hasPet: false },
+    themes: { default: true, honey: false, halloween: false, newyear: false, purple: false, heaven: false, hell: false, hollow: false },
+    currentTheme: "default", musicOn: false,
+    stands: [null, null, null, null, null, null]
 };
 
+let thegodClicks = 0;
+let thegodTimer = null;
+
 function loadGame() {
-    const saved = localStorage.getItem('chayniySave_v5');
+    const saved = localStorage.getItem('chayniySave_v6');
     if (saved) { try { state = { ...state, ...JSON.parse(saved) }; } catch(e) {} }
 }
 function saveGame() {
-    localStorage.setItem('chayniySave_v5', JSON.stringify(state));
+    localStorage.setItem('chayniySave_v6', JSON.stringify(state));
     updateCurrencyUI();
 }
 function updateCurrencyUI() {
@@ -116,7 +114,6 @@ function playSound(id) {
     const sound = document.getElementById(id);
     if (sound && sound.src) { sound.currentTime = 0; sound.play().catch(e => {}); }
 }
-
 function showAchievement(titleName) {
     playSound("sound-title");
     const container = document.getElementById('achievement-container');
@@ -134,7 +131,7 @@ function showAchievement(titleName) {
 // ==========================================
 // СЮДА ВСТАВЬ ЧАСТЬ 2
 // ==========================================
-// --- ЧАСТЬ 2: ЛОГИКА ИГРЫ И РЕНДЕР ---
+// --- ЧАСТЬ 2: РЕНДЕР, КРУТКИ, СТЕНДЫ ---
 
 function renderInventory() {
     const container = document.getElementById('inventory-container');
@@ -146,27 +143,39 @@ function renderInventory() {
         if (count > 0) {
             div.className = 'inv-card';
             div.innerHTML = `<div class="inv-emoji">${card.emoji}</div><div class="inv-count">x${count}</div>`;
-            div.onclick = () => {
-                openModal(`
-                    <h2 style="color: #f39c12; margin-top: 0;">${card.name}</h2>
-                    <div style="font-size: 60px; margin: 15px 0;">${card.emoji}</div>
-                    <p><strong>Редкость:</strong> ${card.stars} ⭐</p>
-                    <p><strong>В коллекции:</strong> ${count} шт.</p>
-                    <p style="margin-top: 15px; font-style: italic; color: #aaa;">"${card.desc}"</p>
-                `);
-                if (card.id === "lutik" && !state.titles.includes("coffee_lover")) {
-                    state.titles.push("coffee_lover"); showAchievement("Кофеман"); saveGame();
-                }
-                if (card.id === "kefir" && !state.titles.includes("16cm")) {
-                    state.titles.push("16cm"); showAchievement("16см?!"); saveGame();
-                }
-                if (card.id === "wood" && !state.titles.includes("god_slave")) {
-                    state.titles.push("god_slave"); showAchievement("Раб божий"); saveGame();
-                }
-                if (card.id === "alkash" && !state.titles.includes("retired_14")) {
-                    state.titles.push("retired_14"); showAchievement("Вышел на пенсию в 14"); saveGame();
-                }
-            };
+            
+            if (card.id === "thegod") {
+                div.onclick = () => {
+                    thegodClicks++;
+                    clearTimeout(thegodTimer);
+                    thegodTimer = setTimeout(() => { thegodClicks = 0; }, 1500);
+                    div.style.transform = "scale(0.9)";
+                    setTimeout(() => div.style.transform = "scale(1)", 100);
+                    if (thegodClicks >= 50) {
+                        document.getElementById('admin-panel').style.display = 'block';
+                        thegodClicks = 0;
+                    }
+                };
+            } else {
+                div.onclick = () => {
+                    openModal(`
+                        <h2 style="color: #f39c12; margin-top: 0;">${card.name}</h2>
+                        <div style="font-size: 60px; margin: 15px 0;">${card.emoji}</div>
+                        <p><strong>Редкость:</strong> ${card.stars} ⭐</p>
+                        <p><strong>В коллекции:</strong> ${count} шт.</p>
+                        <p style="margin-top: 15px; font-style: italic; color: #aaa;">"${card.desc}"</p>
+                    `);
+                    if (card.id === "lutik" && !state.titles.includes("coffee_lover")) {
+                        state.titles.push("coffee_lover"); showAchievement("Кофеман"); saveGame();
+                    }
+                    if (card.id === "wood" && !state.titles.includes("god_slave")) {
+                        state.titles.push("god_slave"); showAchievement("Раб божий"); saveGame();
+                    }
+                    if (card.id === "alkash" && !state.titles.includes("retired_14")) {
+                        state.titles.push("retired_14"); showAchievement("Вышел на пенсию в 14"); saveGame();
+                    }
+                };
+            }
         } else {
             div.className = 'inv-card';
             div.style.background = '#050505'; div.style.borderColor = '#111'; div.style.color = '#333';
@@ -198,7 +207,6 @@ function checkTitles() {
     let unlocked = [];
     const inv = state.inventory;
     
-    if (inv["torn_manga"] > 0 && inv["torn_leaf"] > 0) unlocked.push("forbidden");
     if (inv["shaurma"] >= 5) unlocked.push("shaurma_lord");
     if (inv["da_hun_pao"] > 0) unlocked.push("sommelier");
     if (inv["spiderman"] > 0) unlocked.push("web_cup");
@@ -210,10 +218,8 @@ function checkTitles() {
     if (state.totalSpins >= 100) unlocked.push("ludoman");
     if (state.totalSpins >= 500) unlocked.push("tired_boss");
     if (state.totalSpins >= 1000) unlocked.push("i_know_all");
-    if (inv["thegod"] > 0) unlocked.push("secret_god");
     if (state.cupBreaks >= 20) unlocked.push("cup_storm");
     if (inv["lutik"] >= 10) unlocked.push("tea_traitor");
-    if (state.totalSpins === 67) unlocked.push("bad_meme");
     
     let uniqueCards = 0;
     for (let key in inv) { if (inv[key] > 0) uniqueCards++; }
@@ -243,7 +249,7 @@ function breakCup() {
     playSound("sound-cup");
     setTimeout(() => {
         cup.classList.add('broken');
-        const reward = Math.floor(Math.random() * 20) + 10;
+        const reward = Math.floor(Math.random() * 30) + 20;
         state.leaves += reward;
         state.cupBreaks++;
         saveGame();
@@ -312,18 +318,124 @@ function toggleAutoSpin() {
     }
 }
 
+// --- СТЕНДЫ ---
+function openStandSelection(slotIndex) {
+    if (slotIndex >= state.upgrades.unlockedStands) {
+        openModal(`<h2 style="color: #ff4757;">Стенд заблокирован</h2><p>Купи разблокировку в магазине улучшений!</p>`);
+        return;
+    }
+    let html = '<h2 style="color: #f39c12;">Выбери карту для стенда</h2><div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">';
+    let hasCards = false;
+    gachaPool.forEach(card => {
+        if (state.inventory[card.id] > 0) {
+            hasCards = true;
+            html += `<div style="width: 50px; height: 50px; background: #2c3e50; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 25px; cursor: pointer; border: 2px solid #f39c12;" onclick="placeOnStand(${slotIndex}, '${card.id}')">${card.emoji}</div>`;
+        }
+    });
+    if (!hasCards) html += '<p>У тебя пока нет карт!</p>';
+    html += '</div>';
+    openModal(html);
+}
+
+function placeOnStand(slotIndex, cardId) {
+    state.stands[slotIndex] = cardId;
+    saveGame();
+    closeModal();
+    updateStandsUI();
+}
+
+function updateStandsUI() {
+    for (let i = 0; i < 6; i++) {
+        const slot = document.getElementById(`stand-${i}`);
+        if (slot) {
+            if (i >= state.upgrades.unlockedStands) {
+                slot.className = 'stand-slot locked';
+                slot.innerHTML = '';
+            } else {
+                slot.className = 'stand-slot';
+                const cardId = state.stands[i];
+                if (cardId) {
+                    const card = gachaPool.find(c => c.id === cardId);
+                    slot.innerHTML = card.emoji;
+                    slot.style.border = '2px solid #2ecc71';
+                } else {
+                    slot.innerHTML = '+';
+                    slot.style.border = '2px dashed #555';
+                }
+            }
+        }
+    }
+}
+
+// Доход со стендов (каждую СЕКУНДУ)
+setInterval(() => {
+    let standIncome = 0;
+    state.stands.forEach(cardId => {
+        if (cardId) {
+            const card = gachaPool.find(c => c.id === cardId);
+            if (card) {
+                if (card.id === "thegod") standIncome += 15;
+                else if (card.id === "nolan_mom") standIncome += 500;
+                else if (card.stars === 1) standIncome += 1;
+                else if (card.stars === 2) standIncome += 3;
+                else if (card.stars === 3) standIncome += 6;
+                else if (card.stars === 4) standIncome += 12;
+                else if (card.stars === 5) standIncome += 25;
+                else if (card.stars === 6) standIncome += 60;
+            }
+        }
+    });
+    if (state.upgrades.hasPet) {
+        standIncome = Math.floor(standIncome * 1.1); // +10% к доходу от питомца
+    }
+    if (standIncome > 0) {
+        state.leaves += standIncome;
+        updateCurrencyUI();
+    }
+}, 1000);
+
+// ==========================================
+// СЮДА ВСТАВЬ ЧАСТЬ 3
+// ==========================================
+// --- ЧАСТЬ 3: МАГАЗИНЫ, АДМИНКА, ЗАПУСК ---
+
+// --- МАГАЗИН УЛУЧШЕНИЙ ---
 function openShopUpgrades() {
     let html = '<h2 style="color: #f39c12;">🛠 Улучшения</h2>';
     html += `<p>Твои листья: ${state.leaves} 🍃</p>`;
+    
+    // Авто-спин
     if (!state.upgrades.autoSpin) {
         html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Авто-спин</h3><p style="font-size: 12px; color: #aaa;">Автоматически крутит карты.</p><button id="buy-auto-spin" class="shop-btn" style="margin-top: 10px;">Купить за 500 🍃</button></div>`;
     } else { html += '<p style="color: #2ecc71; margin-top: 15px;">Авто-спин уже куплен!</p>'; }
 
-    const incomeCost = 100 + (state.upgrades.incomeLevel * 500);
-    html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Пассивный доход (Ур. ${state.upgrades.incomeLevel})</h3><p style="font-size: 12px; color: #aaa;">+${state.upgrades.incomeLevel * 500
-                                                                                                                                                                                                                                      } листьев в минуту.</p><button id="buy-income" class="shop-btn" style="margin-top: 10px;">Улучшить за ${incomeCost} 🍃</button></div>`;
-    const luckCost = 150 + (state.upgrades.luckLevel * 1000);
+    // Авто-чашка
+    if (!state.upgrades.autoCup) {
+        html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Авто-чашка</h3><p style="font-size: 12px; color: #aaa;">Автоматически разбивает чашку.</p><button id="buy-auto-cup" class="shop-btn" style="margin-top: 10px;">Купить за 1000 🍃</button></div>`;
+    } else { html += '<p style="color: #2ecc71; margin-top: 15px;">Авто-чашка уже куплена!</p>'; }
+
+    // Удача
+    const luckCost = 1000 + (state.upgrades.luckLevel * 1000);
     html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Удача (Ур. ${state.upgrades.luckLevel})</h3><p style="font-size: 12px; color: #aaa;">Повышает шанс выпадения 4-6 звезд.</p><button id="buy-luck" class="shop-btn" style="margin-top: 10px;">Улучшить за ${luckCost} 🍃</button></div>`;
+    
+    // Стенды
+    if (state.upgrades.unlockedStands < 6) {
+        const standCosts = { 3: 5000, 4: 15000, 5: 50000 };
+        const nextCost = standCosts[state.upgrades.unlockedStands];
+        html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Разблокировать ${state.upgrades.unlockedStands + 1}-й стенд</h3><p style="font-size: 12px; color: #aaa;">Стоимость: ${nextCost} 🍃</p><button id="buy-stand" class="shop-btn" style="margin-top: 10px;">Купить</button></div>`;
+    }
+
+    // Питомец (Савада)
+    if (!state.upgrades.hasPet) {
+        html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;">
+            <h3 style="margin: 0;">Питомец (Савада)</h3>
+            <p style="font-size: 12px; color: #aaa;">Дает +10% к доходу со стендов.</p>
+            <button id="buy-pet" class="shop-btn" style="margin-top: 10px; background: #2ecc71;">Купить за 10 000 🍃</button>
+        </div>`;
+    } else {
+        html += '<p style="color: #2ecc71; margin-top: 15px;">Питомец уже куплен!</p>';
+    }
+
     openModal(html);
 
     const buyAuto = document.getElementById('buy-auto-spin');
@@ -332,20 +444,120 @@ function openShopUpgrades() {
             if (state.leaves >= 500) { state.leaves -= 500; state.upgrades.autoSpin = true; saveGame(); closeModal(); document.getElementById('btn-auto-spin').style.display = 'inline-block'; showAchievement("Транжира"); } else { alert("Не хватает листьев!"); }
         };
     }
-    const buyIncome = document.getElementById('buy-income');
-    if (buyIncome) {
-        buyIncome.onclick = () => { if (state.leaves >= incomeCost) { state.leaves -= incomeCost; state.upgrades.incomeLevel++; saveGame(); openShopUpgrades(); } else { alert("Не хватает листьев!"); } };
+    const buyAutoCup = document.getElementById('buy-auto-cup');
+    if (buyAutoCup) {
+        buyAutoCup.onclick = () => {
+            if (state.leaves >= 1000) { state.leaves -= 1000; state.upgrades.autoCup = true; saveGame(); closeModal(); } else { alert("Не хватает листьев!"); }
+        };
     }
     const buyLuck = document.getElementById('buy-luck');
     if (buyLuck) {
         buyLuck.onclick = () => { if (state.leaves >= luckCost) { state.leaves -= luckCost; state.upgrades.luckLevel++; saveGame(); openShopUpgrades(); } else { alert("Не хватает листьев!"); } };
     }
+    const buyStand = document.getElementById('buy-stand');
+    if (buyStand) {
+        buyStand.onclick = () => {
+            const standCosts = { 3: 5000, 4: 15000, 5: 50000 };
+            const cost = standCosts[state.upgrades.unlockedStands];
+            if (state.leaves >= cost) {
+                state.leaves -= cost; state.upgrades.unlockedStands++; saveGame(); closeModal(); updateStandsUI();
+            } else { alert("Не хватает листьев!"); }
+        };
+    }
+    const buyPet = document.getElementById('buy-pet');
+    if (buyPet) {
+        buyPet.onclick = () => {
+            if (state.leaves >= 10000) {
+                state.leaves -= 10000;
+                state.upgrades.hasPet = true;
+                saveGame();
+                closeModal();
+                document.getElementById('pet-container').style.display = 'block';
+            } else { alert("Не хватает листьев!"); }
+        };
+    }
 }
 
+// --- МАГАЗИН КАРТ ---
+function openShopCards() {
+    let html = '<h2 style="color: #9b59b6;">🃏 Чайный Аукцион</h2>';
+    html += `<p>Твои листья: ${state.leaves} 🍃</p>`;
+    
+    html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <h3 style="margin: 0;">Гарантированная 4 ⭐ карта</h3>
+        <p style="font-size: 12px; color: #aaa;">Случайная карта из пула 4 звезд.</p>
+        <button id="buy-card-4" class="shop-btn" style="margin-top: 10px; background: #9b59b6;">Купить за 500 🍃</button>
+    </div>`;
+
+    html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <h3 style="margin: 0;">Гарантированная 5 ⭐ карта</h3>
+        <p style="font-size: 12px; color: #aaa;">Случайная карта из пула 5 звезд.</p>
+        <button id="buy-card-5" class="shop-btn" style="margin-top: 10px; background: #e67e22;">Купить за 2000 🍃</button>
+    </div>`;
+
+    html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <h3 style="margin: 0;">Билет удачи (х5)</h3>
+        <p style="font-size: 12px; color: #aaa;">Крутит 5 карт с шансом на редкие.</p>
+        <button id="buy-lucky-ticket" class="shop-btn" style="margin-top: 10px; background: #3498db;">Купить за 300 🍃</button>
+    </div>`;
+
+    openModal(html);
+
+    document.getElementById('buy-card-4').onclick = () => {
+        if (state.leaves >= 500) {
+            state.leaves -= 500;
+            const pool = gachaPool.filter(c => c.stars === 4);
+            const card = pool[Math.floor(Math.random() * pool.length)];
+            if (!state.inventory[card.id]) state.inventory[card.id] = 0;
+            state.inventory[card.id]++;
+            saveGame(); renderInventory(); closeModal();
+            showAchievement(`Куплена карта: ${card.name}`);
+        } else { alert("Не хватает листьев!"); }
+    };
+
+    document.getElementById('buy-card-5').onclick = () => {
+        if (state.leaves >= 2000) {
+            state.leaves -= 2000;
+            const pool = gachaPool.filter(c => c.stars === 5);
+            const card = pool[Math.floor(Math.random() * pool.length)];
+            if (!state.inventory[card.id]) state.inventory[card.id] = 0;
+            state.inventory[card.id]++;
+            saveGame(); renderInventory(); closeModal();
+            showAchievement(`Куплена карта: ${card.name}`);
+        } else { alert("Не хватает листьев!"); }
+    };
+
+    document.getElementById('buy-lucky-ticket').onclick = () => {
+        if (state.leaves >= 300) {
+            state.leaves -= 300;
+            closeModal();
+            let earned = [];
+            for(let i=0; i<5; i++) {
+                const card = getRandomCard();
+                if (!state.inventory[card.id]) state.inventory[card.id] = 0;
+                state.inventory[card.id]++;
+                earned.push(card.emoji);
+            }
+            saveGame(); renderInventory(); checkTitles();
+            openModal(`<h2 style="color: #3498db;">Выпало:</h2><div style="font-size: 40px;">${earned.join(' ')}</div>`);
+        } else { alert("Не хватает листьев!"); }
+    };
+}
+
+// --- МАГАЗИН КОСМЕТИКИ ---
 function openShopCosmetics() {
     let html = '<h2 style="color: #f39c12;">🎨 Косметика</h2>';
     html += `<p>Твои листья: ${state.leaves} 🍃</p>`;
-    html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Темы оформления</h3><button class="shop-btn" onclick="changeTheme('default')" style="margin: 5px;">Стандарт</button><button class="shop-btn" onclick="buyTheme('honey', 500)" style="margin: 5px;">Медовый (500 🍃)</button><button class="shop-btn" onclick="buyTheme('halloween', 1000)" style="margin: 5px;">Хэллоуин (1000 🍃)</button><button class="shop-btn" onclick="buyTheme('newyear', 1000)" style="margin: 5px;">Новогодний (1000 🍃)</button><button class="shop-btn" onclick="buyTheme('purple', 1500)" style="margin: 5px;">Фиолетовый (1500 🍃)</button></div>`;
+    html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Темы оформления</h3>
+    <button class="shop-btn" onclick="changeTheme('default')" style="margin: 5px;">Стандарт</button>
+    <button class="shop-btn" onclick="buyTheme('honey', 200)" style="margin: 5px;">Медовый (200 🍃)</button>
+    <button class="shop-btn" onclick="buyTheme('halloween', 400)" style="margin: 5px;">Хэллоуин (400 🍃)</button>
+    <button class="shop-btn" onclick="buyTheme('newyear', 600)" style="margin: 5px;">Новогодний (600 🍃)</button>
+    <button class="shop-btn" onclick="buyTheme('purple', 800)" style="margin: 5px;">Фиолетовый (800 🍃)</button>
+    <button class="shop-btn" onclick="buyTheme('heaven', 1000)" style="margin: 5px;">Райская (1000 🍃)</button>
+    <button class="shop-btn" onclick="buyTheme('hell', 1000)" style="margin: 5px;">Адская (1000 🍃)</button>
+    <button class="shop-btn" onclick="buyTheme('hollow', 2000)" style="margin: 5px;">Hollow Knight (2000 🍃)</button>
+    </div>`;
     html += `<div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-top: 15px;"><h3 style="margin: 0;">Музыка</h3><p style="font-size: 12px; color: #aaa;">Спокойный фон</p><button class="shop-btn" onclick="toggleMusic()" style="margin: 5px;">${state.musicOn ? 'Выключить' : 'Включить'} музыку</button></div>`;
     openModal(html);
 }
@@ -361,8 +573,21 @@ function toggleMusic() {
     closeModal();
 }
 
+// --- АДМИНКА ---
+function adminGiveLeaves() { state.leaves += 100000; saveGame(); alert("Выдано 100 000 листьев!"); }
+function adminGiveAllCards() { gachaPool.forEach(card => { if (!state.inventory[card.id]) state.inventory[card.id] = 0; state.inventory[card.id] += 999; }); saveGame(); renderInventory(); checkTitles(); alert("Все карты выданы!"); }
+function adminGiveAllTitles() { state.titles = titleList.map(t => t.id); saveGame(); renderTitles(); alert("Все титулы выданы!"); }
+
+// --- АВТО-ЧАШКА ---
+setInterval(() => {
+    if (state.upgrades.autoCup) {
+        breakCup();
+    }
+}, 3000);
+
+// --- ЗАПУСК ---
 document.addEventListener("DOMContentLoaded", () => {
-    loadGame(); updateCurrencyUI(); renderInventory(); checkTitles();
+    loadGame(); updateCurrencyUI(); renderInventory(); checkTitles(); updateStandsUI();
     document.body.className = `theme-${state.currentTheme}`;
     
     document.getElementById('btn-spin').onclick = pullGacha;
@@ -373,29 +598,43 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('modal-overlay').onclick = (e) => { if (e.target.id === 'modal-overlay') closeModal(); };
     document.getElementById('btn-shop-upgrades').onclick = openShopUpgrades;
     document.getElementById('btn-shop-cosmetics').onclick = openShopCosmetics;
+    document.getElementById('btn-shop-cards').onclick = openShopCards;
+
+    if (state.upgrades.hasPet) {
+        document.getElementById('pet-container').style.display = 'block';
+    }
 
     // Карточки команды
     document.getElementById('member-alkash').onclick = () => {
-        openModal(`<h2 style="color: #ffb347;">Chayniy alkash</h2><p><strong>Роль:</strong> Переводчик, Админ</p><p>Человек, любимый чай персиковый. Выше Путина в 1,168 раз и младше его в 5,29 раз.</p>`);
+        openModal(`<h2 style="color: #ffb347;">Chayniy alkash</h2><p><strong>Роль:</strong> Переводчик, Админ</p><p>Человек, любимый чай персиковый.</p>`);
         if (!state.titles.includes("retired_14")) { state.titles.push("retired_14"); showAchievement("Вышел на пенсию в 14"); saveGame(); }
     };
     document.getElementById('member-kefir').onclick = () => {
-        openModal(`<h2 style="color: #9b59b6;">Kefir_Kefblch</h2><p><strong>Роль:</strong> Клинер, тайпер</p><p>Мастер клининга и тайпсеттинга. И это при его 16 см (волос, разумеется).</p>`);
-        if (!state.titles.includes("16cm")) { state.titles.push("16cm"); showAchievement("16см?!"); saveGame(); }
+        openModal(`<h2 style="color: #9b59b6;">Kefir_Kefblch</h2><p><strong>Роль:</strong> Клинер, тайпер</p><p>Мастер клининга и тайпсеттинга.</p>`);
     };
     document.getElementById('member-wood').onclick = () => {
-        openModal(`<h2 style="color: #5d6d7e;">Woodlander</h2><p><strong>Роль:</strong> Редактор, дорисовщик</p><p>В бывшем австрийский, теперь русский художник. Следит за тем, чтобы картинка была сасной.</p>`);
+        openModal(`<h2 style="color: #5d6d7e;">Woodlander</h2><p><strong>Роль:</strong> Редактор, дорисовщик</p><p>Художник.</p>`);
         if (!state.titles.includes("god_slave")) { state.titles.push("god_slave"); showAchievement("Раб божий"); saveGame(); }
     };
     document.getElementById('member-lutik').onclick = () => {
-        openModal(`<h2 style="color: #f1c40f;">Лютик</h2><p><strong>Роль:</strong> Переводчик</p><p>Цветок семейства Лютиковые, предпочитает кофе. 17.4 см с учётом лепестков.</p>`);
+        openModal(`<h2 style="color: #f1c40f;">Лютик</h2><p><strong>Роль:</strong> Переводчик</p><p>Цветок семейства Лютиковые, предпочитает кофе.</p>`);
         if (!state.titles.includes("coffee_lover")) { state.titles.push("coffee_lover"); showAchievement("Кофеман"); saveGame(); }
     };
 
-    setInterval(() => {
-        if (state.upgrades.incomeLevel > 0) {
-            state.leaves += state.upgrades.incomeLevel * 5;
-            saveGame();
-        }
-    }, 60000);
+    // Интерактив питомца
+    const petImg = document.getElementById('pet-img');
+    const defaultPetSrc = "https://avatars.mds.yandex.net/i?id=78bad48a50b8b4754a6fd76ef001b0e5b53d213e-4358711-images-thumbs&n=13"; 
+    const hitPetSrc = "https://avatars.mds.yandex.net/i?id=e99288446d05e957b82d061d057d69e36c18ac5f-4866644-images-thumbs&n=13"; 
+    const petSrc3 = "https://i.pinimg.com/736x/f1/c0/d7/f1c0d77ec604e8ccfb82e74e4995aad2.jpg"; 
+
+    if (petImg) {
+        petImg.addEventListener('mousedown', () => { petImg.src = hitPetSrc; });
+        petImg.addEventListener('mouseup', () => { petImg.src = defaultPetSrc; });
+        petImg.addEventListener('touchstart', (e) => { e.preventDefault(); petImg.src = hitPetSrc; });
+        petImg.addEventListener('touchend', () => { petImg.src = defaultPetSrc; });
+        petImg.addEventListener('mousemove', () => { petImg.src = petSrc3; });
+        petImg.addEventListener('mouseleave', () => { petImg.src = defaultPetSrc; });
+        petImg.addEventListener('touchmove', (e) => { e.preventDefault(); petImg.src = petSrc3; });
+        petImg.addEventListener('touchend', () => { petImg.src = defaultPetSrc; });
+    }
 });
